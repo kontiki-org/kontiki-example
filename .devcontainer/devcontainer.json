@@ -1,0 +1,21 @@
+{
+  "name": "Kontiki example",
+  "dockerComposeFile": [
+    "docker-compose.yaml"
+  ],
+  "service": "workspace",
+  "workspaceFolder": "/workspace",
+  "postStartCommand": "bash -lc 'trap \"\" HUP; export PYTHONUNBUFFERED=1; kontiki_registry --config registry/config.yaml >> /tmp/kontiki-registry.log 2>&1 & python -m kontiki.runner.__main__ inventory.service.Inventory --config inventory/config.yaml >> /tmp/inventory.log 2>&1 & python -m kontiki.runner.__main__ checkout.service.Checkout --config checkout/config.yaml >> /tmp/checkout.log 2>&1 &'",
+  "postAttachCommand": {
+    "welcome": "echo 'Checkout and Inventory are up. Run: make example — then kontiki-tui'"
+  },
+  "forwardPorts": [15672],
+  "portsAttributes": {
+    "15672": { "label": "RabbitMQ management UI" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"]
+    }
+  }
+}
